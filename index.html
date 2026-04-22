@@ -49,27 +49,29 @@
 
     <!-- Game container -->
     <div id="game-container" class="hidden">
-      <div id="hud">
-        <div class="hud-left">
-          <span class="hud-label">SCORE</span>
-          <span id="hud-score">0</span>
-        </div>
-        <div class="hud-center">
-          <span class="hud-label">HIGH</span>
-          <span id="hud-high">0</span>
-        </div>
-        <div class="hud-right">
-          <span class="hud-label">LEVEL</span>
-          <span id="hud-level">1</span>
-        </div>
-      </div>
       <div id="canvas-wrapper">
         <canvas id="game-canvas"></canvas>
-        <!-- Overlay messages on canvas -->
+        <!-- HUD overlaid on canvas top -->
+        <div id="hud">
+          <div class="hud-left">
+            <span class="hud-label">SCORE</span>
+            <span id="hud-score">0</span>
+          </div>
+          <div class="hud-center">
+            <span class="hud-label">HIGH</span>
+            <span id="hud-high">0</span>
+          </div>
+          <div class="hud-right">
+            <span class="hud-label">LEVEL</span>
+            <span id="hud-level">1</span>
+          </div>
+        </div>
+        <!-- Lives overlaid on canvas bottom -->
+        <div id="lives-bar">
+          <span id="hud-lives"></span>
+        </div>
+        <!-- Overlay messages -->
         <div id="overlay-msg" class="overlay-msg hidden"></div>
-      </div>
-      <div id="lives-bar">
-        <span id="hud-lives"></span>
       </div>
       <!-- D-pad -->
       <div id="dpad">

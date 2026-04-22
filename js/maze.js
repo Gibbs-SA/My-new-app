@@ -195,13 +195,9 @@ function isNeighborWall(maze, c, r) {
 // ── Resize helper ─────────────────────────────────────────────────────────────
 
 export function computeTileSize() {
-  const vw = window.innerWidth;
-  const vh = window.innerHeight;
-  const hudH   = 44;
-  const livesH = 28;
-  const dpadH  = 220;
-  const safeB  = 16;
-  const availH = vh - hudH - livesH - dpadH - safeB;
+  const vw     = window.innerWidth;
+  const vh     = window.innerHeight;
+  const availH = Math.floor(vh * 0.90); // canvas = 90% of screen
   const byW    = Math.floor(vw / COLS);
   const byH    = Math.floor(availH / ROWS);
   return Math.max(6, Math.min(byW, byH));
