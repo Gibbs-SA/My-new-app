@@ -71,7 +71,7 @@ export function resize() {
   canvas.style.width  = logW + 'px';
   canvas.style.height = logH + 'px';
   ctx = canvas.getContext('2d');
-  ctx.scale(dpr, dpr);
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 }
 
 // ── Public API ────────────────────────────────────────────────────────────

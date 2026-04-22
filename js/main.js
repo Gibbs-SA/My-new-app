@@ -22,10 +22,8 @@ const screens = {
 function show(name) {
   Object.entries(screens).forEach(([k, el]) => {
     if (!el) return;
-    el.classList.toggle('hidden', k !== name);
-    el.classList.remove('screen');
-    if (k !== name) { el.style.display = ''; el.classList.add('hidden'); }
-    else            { el.classList.remove('hidden'); }
+    if (k === name) el.classList.remove('hidden');
+    else            el.classList.add('hidden');
   });
 }
 

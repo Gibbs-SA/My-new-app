@@ -48,14 +48,15 @@ export class Ghost {
     this.flashTimer  = 0;
     this.flashing    = false;
     this.dotCounter  = 0;
-    this.bounceDir   = 1; // for house bobbing
+    this.bounceDir   = 1;
     this.atTileCenter = false;
     this.pendingReverse = false;
+    this.houseTimer  = 0; // time spent in house after being eaten
 
     // Blinky starts outside immediately
     if (this.name === 'blinky') {
       this.x   = 13.5 * ts;
-      this.y   = 11   * ts;
+      this.y   = 11   * ts + ts / 2;
       this.dir = { x: -1, y: 0 };
       this.mode = MODE.SCATTER;
     }
@@ -91,6 +92,10 @@ export class Ghost {
 
     if (this.mode === MODE.HOUSE) {
       this._bobInHouse(dt, ts);
+      if (this.houseTimer > 0) {
+        this.houseTimer -= dt;
+        if (this.houseTimer <= 0) { this.houseTimer = 0; this.mode = MODE.LEAVING; }
+      }
       return;
     }
 
@@ -260,10 +265,8 @@ export class Ghost {
         this.x = 13.5 * getTileSize();
         this.y = 14   * getTileSize();
         this.dir = { x: 0, y: 1 };
-        // Start leaving sequence
-        setTimeout(() => {
-          if (this.mode === MODE.HOUSE) this.mode = MODE.LEAVING;
-        }, 2000);
+        // Re-emerge after 2 seconds (tracked in update loop via houseTimer)
+        this.houseTimer = 2000;
         return;
       }
     }
