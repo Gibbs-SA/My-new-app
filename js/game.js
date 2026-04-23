@@ -197,6 +197,10 @@ function _update(dt) {
 
   const blinky = ghosts[0];
 
+  // Pac-Man speed: boost during frightened mode (classic: 90% of max vs normal 80%)
+  const anyFrightened = ghosts.some(g => g.mode === MODE.FRIGHTENED);
+  pacman.speed = anyFrightened ? pacman.frightSpeed : pacman.baseSpeed;
+
   // Update entities
   pacman.update(dt, maze);
   ghosts.forEach(g => g.update(dt, maze, pacman, blinky));

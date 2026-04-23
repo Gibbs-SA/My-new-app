@@ -168,7 +168,7 @@ export class Ghost {
     const cx   = col * ts + ts / 2;
     const cy   = row * ts + ts / 2;
     const dist = Math.hypot(this.x - cx, this.y - cy);
-    return dist < ts * 0.4;
+    return dist < ts * 0.12;
   }
 
   _snapCenter(ts) {
@@ -181,11 +181,11 @@ export class Ghost {
 
   _speed(ts) {
     switch (this.mode) {
-      case MODE.FRIGHTENED: return ts * 0.032; // 팩맨보다 훨씬 느림 (먹힐 수 있는 상태)
-      case MODE.EATEN:      return ts * 0.130; // 집으로 빠르게 복귀
+      case MODE.FRIGHTENED: return ts * 0.063; // 50% of max (classic dossier)
+      case MODE.EATEN:      return ts * 0.190; // fast return to house
       default:
-        if (Math.floor(this.y / ts) === 14) return ts * 0.026; // 터널에서 느려짐
-        return ts * 0.058; // 팩맨(0.064)보다 약간 느린 정도
+        if (Math.floor(this.y / ts) === 14) return ts * 0.050; // tunnel: 40% of max
+        return ts * 0.095; // 75% of max — slightly slower than Pac-Man's 80%
     }
   }
 

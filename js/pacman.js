@@ -11,8 +11,8 @@ export class Pacman {
     this.y       = 23.5 * ts;
     this.dir     = { x: 0,  y: 0 };
     this.nextDir = { x: -1, y: 0 };
-    this.baseSpeed  = ts * 0.080 * speedFactor(level, false);
-    this.frightSpeed = ts * 0.080 * speedFactor(level, true);
+    this.baseSpeed  = ts * 0.1263 * speedFactor(level, false);
+    this.frightSpeed = ts * 0.1263 * speedFactor(level, true);
     this.speed   = this.baseSpeed;
     this.mouthAngle = 0.25;  // radians
     this.mouthOpen  = true;
