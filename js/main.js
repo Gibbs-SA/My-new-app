@@ -5,6 +5,7 @@ import {
   setCallbacks, getScore, getLevel, getHighScore, initControls,
   STATE
 } from './game.js';
+import { unlock as sfxUnlock } from './sounds.js';
 
 // ── Screen helpers ────────────────────────────────────────────────────────
 
@@ -59,6 +60,13 @@ document.getElementById('btn-guest').onclick = () => {
 };
 
 document.getElementById('btn-play').onclick = () => {
+  sfxUnlock();
+  show('game');
+  startGame(1);
+};
+
+document.getElementById('btn-play-again').onclick = () => {
+  sfxUnlock();
   show('game');
   startGame(1);
 };
@@ -79,11 +87,6 @@ document.getElementById('btn-logout').onclick = async () => {
 };
 
 document.getElementById('btn-back').onclick = () => show('menu');
-
-document.getElementById('btn-play-again').onclick = () => {
-  show('game');
-  startGame(1);
-};
 
 document.getElementById('btn-leaderboard-go').onclick = async () => {
   show('leaderboard');

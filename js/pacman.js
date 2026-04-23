@@ -8,7 +8,7 @@ export class Pacman {
   reset(level = 1) {
     const ts = getTileSize();
     this.x       = 13.5 * ts;
-    this.y       = 23   * ts;
+    this.y       = 23.5 * ts;
     this.dir     = { x: 0,  y: 0 };
     this.nextDir = { x: -1, y: 0 };
     this.baseSpeed  = ts * 0.080 * speedFactor(level, false);
@@ -167,18 +167,18 @@ function canMove(x, y, dir, maze, ts) {
 function alignToGrid(pac, ts) {
   // When moving horizontally, snap y to row center
   if (pac.dir.x !== 0) {
-    const row = Math.round(pac.y / ts);
+    const row    = Math.floor(pac.y / ts);
     const target = row * ts + ts / 2;
-    const diff = target - pac.y;
+    const diff   = target - pac.y;
     if (Math.abs(diff) < pac.speed * 1.5) {
       pac.y += diff * 0.4;
     }
   }
   // When moving vertically, snap x to col center
   if (pac.dir.y !== 0) {
-    const col = Math.round(pac.x / ts);
+    const col    = Math.floor(pac.x / ts);
     const target = col * ts + ts / 2;
-    const diff = target - pac.x;
+    const diff   = target - pac.x;
     if (Math.abs(diff) < pac.speed * 1.5) {
       pac.x += diff * 0.4;
     }

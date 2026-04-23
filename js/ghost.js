@@ -51,7 +51,8 @@ export class Ghost {
     this.bounceDir   = 1;
     this.atTileCenter = false;
     this.pendingReverse = false;
-    this.houseTimer  = 0; // time spent in house after being eaten
+    this.houseTimer  = 0;
+    this._lastDecisionTile = null;
 
     // Blinky starts outside immediately
     if (this.name === 'blinky') {
@@ -137,7 +138,7 @@ export class Ghost {
 
   _leaveHouse(dt, ts, maze) {
     const exitX = 13.5 * ts;
-    const exitY = 11   * ts;
+    const exitY = 11.5 * ts;
     const speed = ts * 0.05;
 
     // Move toward exit: first align x, then move y
@@ -150,6 +151,7 @@ export class Ghost {
 
     if (this.y <= exitY) {
       this.y   = exitY;
+      this._lastDecisionTile = null;
       this.dir = { x: -1, y: 0 };
       this.mode = this.prevMode === MODE.FRIGHTENED ? MODE.SCATTER : this.prevMode;
       if (this.mode !== MODE.SCATTER && this.mode !== MODE.CHASE) this.mode = MODE.SCATTER;
@@ -157,15 +159,24 @@ export class Ghost {
   }
 
   _reachedCenter(ts) {
-    const cx = Math.round(this.x / ts) * ts + ts / 2;
-    const cy = Math.round(this.y / ts) * ts + ts / 2;
+    const col = Math.floor(this.x / ts);
+    const row = Math.floor(this.y / ts);
+    // Don't re-trigger at the same tile we just decided at
+    if (this._lastDecisionTile &&
+        this._lastDecisionTile.col === col &&
+        this._lastDecisionTile.row === row) return false;
+    const cx   = col * ts + ts / 2;
+    const cy   = row * ts + ts / 2;
     const dist = Math.hypot(this.x - cx, this.y - cy);
-    return dist < this._speed(ts) * 1.5;
+    return dist < ts * 0.4;
   }
 
   _snapCenter(ts) {
-    this.x = Math.round(this.x / ts) * ts + ts / 2;
-    this.y = Math.round(this.y / ts) * ts + ts / 2;
+    const col = Math.floor(this.x / ts);
+    const row = Math.floor(this.y / ts);
+    this.x = col * ts + ts / 2;
+    this.y = row * ts + ts / 2;
+    this._lastDecisionTile = { col, row };
   }
 
   _speed(ts) {
