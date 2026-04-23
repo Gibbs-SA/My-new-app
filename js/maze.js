@@ -195,9 +195,12 @@ function isNeighborWall(maze, c, r) {
 // ── Resize helper ─────────────────────────────────────────────────────────────
 
 export function computeTileSize() {
-  const vw     = window.innerWidth;
-  const vh     = window.innerHeight;
-  const availH = Math.floor(vh * 0.90); // canvas = 90% of screen
+  // visualViewport.height = 내비게이션 바를 제외한 실제 가시 높이
+  const vp  = window.visualViewport;
+  const vw  = vp ? vp.width  : window.innerWidth;
+  const vh  = vp ? vp.height : window.innerHeight;
+  // 캔버스 = 90%, D패드 = 10%
+  const availH = Math.floor(vh * 0.90);
   const byW    = Math.floor(vw / COLS);
   const byH    = Math.floor(availH / ROWS);
   return Math.max(6, Math.min(byW, byH));

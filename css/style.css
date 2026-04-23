@@ -11,6 +11,7 @@
 html, body {
   width: 100%;
   height: 100%;
+  height: 100dvh;
   background: #000;
   overflow: hidden;
   font-family: 'Press Start 2P', monospace;
@@ -20,6 +21,7 @@ html, body {
 #app {
   width: 100%;
   height: 100%;
+  height: 100dvh;
   position: relative;
   display: flex;
   align-items: center;
@@ -136,6 +138,15 @@ html, body {
 }
 
 /* ── Game container: canvas 90% / dpad 10% ── */
+:root {
+  /* safe-area-inset-bottom: 내비게이션 바 높이를 자동으로 반영 */
+  --safe-b: env(safe-area-inset-bottom, 0px);
+  /* D패드 영역 = 화면의 10% + 내비게이션 바 높이 */
+  --dpad-area: calc(10dvh + var(--safe-b));
+  /* 캔버스 영역 = 나머지 90% */
+  --canvas-area: calc(100dvh - var(--dpad-area));
+}
+
 #game-container {
   position: absolute;
   inset: 0;
@@ -144,15 +155,16 @@ html, body {
   align-items: center;
   width: 100%;
   height: 100%;
+  height: 100dvh;
   background: #000;
   z-index: 10;
 }
 
-/* Canvas wrapper = 90% of screen height */
+/* Canvas wrapper = 화면의 90% (내비게이션 바 제외한 전체에서) */
 #canvas-wrapper {
   position: relative;
   width: 100%;
-  height: 90vh;
+  height: var(--canvas-area);
   flex-shrink: 0;
   display: flex;
   align-items: center;
@@ -227,23 +239,23 @@ html, body {
   z-index: 25;
 }
 
-/* ── D-Pad: 10% of screen height ── */
+/* ── D-Pad: 10dvh + safe-area ── */
 :root {
-  --dpad-h: 10vh;
-  --btn-size: calc((var(--dpad-h) - 8px) / 3);
+  --btn-size: calc((10dvh - 8px) / 3);
   --btn-font: calc(var(--btn-size) * 0.42);
 }
 
 #dpad {
   width: 100%;
-  height: var(--dpad-h);
+  height: var(--dpad-area);
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;   /* 버튼을 위쪽으로 배치, 내비게이션 바 위로 올림 */
   gap: 2px;
-  padding-bottom: max(2px, env(safe-area-inset-bottom));
+  padding-top: 4px;
+  padding-bottom: var(--safe-b); /* 내비게이션 바 높이만큼 하단 패딩 */
 }
 
 .dpad-row {

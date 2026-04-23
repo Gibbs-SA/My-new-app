@@ -58,6 +58,10 @@ export function initGame(canvasEl) {
   ctx    = canvas.getContext('2d');
   resize();
   window.addEventListener('resize', resize);
+  // visualViewport fires when browser chrome (address bar / nav bar) appears/disappears
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener('resize', resize);
+  }
 }
 
 export function resize() {
