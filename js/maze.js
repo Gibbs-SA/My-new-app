@@ -199,8 +199,8 @@ export function computeTileSize() {
   const vp  = window.visualViewport;
   const vw  = vp ? vp.width  : window.innerWidth;
   const vh  = vp ? vp.height : window.innerHeight;
-  // 캔버스 = 90%, D패드 = 10%
-  const availH = Math.floor(vh * 0.90);
+  // 캔버스 = 75%, D패드 = 25%
+  const availH = Math.floor(vh * 0.75);
   const byW    = Math.floor(vw / COLS);
   const byH    = Math.floor(availH / ROWS);
   return Math.max(6, Math.min(byW, byH));

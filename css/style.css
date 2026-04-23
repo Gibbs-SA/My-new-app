@@ -137,13 +137,12 @@ html, body {
   min-height: 16px;
 }
 
-/* ── Game container: canvas 90% / dpad 10% ── */
+/* ── Game container: canvas 75% / dpad 25% ── */
 :root {
-  /* safe-area-inset-bottom: 내비게이션 바 높이를 자동으로 반영 */
-  --safe-b: env(safe-area-inset-bottom, 0px);
-  /* D패드 영역 = 화면의 10% + 내비게이션 바 높이 */
-  --dpad-area: calc(10dvh + var(--safe-b));
-  /* 캔버스 영역 = 나머지 90% */
+  --safe-b:     env(safe-area-inset-bottom, 0px);
+  /* 버튼 전용 공간: 내비게이션 바와 무관하게 충분한 높이 확보 */
+  --dpad-btns:  25dvh;
+  --dpad-area:  calc(var(--dpad-btns) + var(--safe-b));
   --canvas-area: calc(100dvh - var(--dpad-area));
 }
 
@@ -160,7 +159,7 @@ html, body {
   z-index: 10;
 }
 
-/* Canvas wrapper = 화면의 90% (내비게이션 바 제외한 전체에서) */
+/* Canvas wrapper = 75dvh */
 #canvas-wrapper {
   position: relative;
   width: 100%;
@@ -239,10 +238,11 @@ html, body {
   z-index: 25;
 }
 
-/* ── D-Pad: 10dvh + safe-area ── */
+/* ── D-Pad: 25dvh 버튼 공간 + safe-area ── */
 :root {
-  --btn-size: calc((10dvh - 8px) / 3);
-  --btn-font: calc(var(--btn-size) * 0.42);
+  /* 버튼 3행 + 여백에 맞는 크기, 최대 72px */
+  --btn-size: min(calc((var(--dpad-btns) - 18px) / 3), 72px);
+  --btn-font: calc(var(--btn-size) * 0.40);
 }
 
 #dpad {
@@ -252,10 +252,12 @@ html, body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;   /* 버튼을 위쪽으로 배치, 내비게이션 바 위로 올림 */
-  gap: 2px;
-  padding-top: 4px;
-  padding-bottom: var(--safe-b); /* 내비게이션 바 높이만큼 하단 패딩 */
+  /* 버튼을 위쪽에 배치 → 내비게이션 바 위로 자연스럽게 올라감 */
+  justify-content: flex-start;
+  gap: 3px;
+  padding-top: 6px;
+  /* 내비게이션 바만큼 하단 확보 (최소 8px 보장) */
+  padding-bottom: max(var(--safe-b), 8px);
 }
 
 .dpad-row {
